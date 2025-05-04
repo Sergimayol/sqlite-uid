@@ -34,3 +34,17 @@ WITH object_id_table AS (
     SELECT object_id()
 )
 SELECT * FROM object_id_table ORDER BY id;
+
+-- UUID (v4)
+SELECT uuid() as uuid;
+
+WITH uuid_table AS (
+    SELECT uuid() AS id
+    UNION ALL
+    SELECT uuid()
+    UNION ALL
+    SELECT uuid()
+    UNION ALL
+    SELECT uuid()
+)
+SELECT * FROM uuid_table;

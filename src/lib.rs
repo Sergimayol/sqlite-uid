@@ -3,6 +3,7 @@ mod ulid;
 
 use sqlite_loadable::prelude::*;
 use sqlite_loadable::{api, define_scalar_function, Result};
+use uuid::Uuid;
 
 fn ulid(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> Result<()> {
     let ulid = ulid::Ulid::new();
@@ -17,7 +18,8 @@ fn object_id(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> R
 }
 
 fn uuid(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> Result<()> {
-    api::result_text(context, "todo: uuid")?;
+    let uuid = Uuid::new_v4();
+    api::result_text(context, uuid.to_string())?;
     Ok(())
 }
 
