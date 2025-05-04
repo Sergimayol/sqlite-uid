@@ -44,6 +44,7 @@ fn snowflake_id(context: *mut sqlite3_context, values: &[*mut sqlite3_value]) ->
 #[sqlite_entrypoint]
 pub fn sqlite3_uid_init(db: *mut sqlite3) -> Result<()> {
     let flags = FunctionFlags::UTF8 | FunctionFlags::DETERMINISTIC;
+    // TODO: Add more opts to functions
     define_scalar_function(db, "uuid", 0, uuid, flags)?;
     define_scalar_function(db, "ulid", 0, ulid, flags)?;
     define_scalar_function(db, "object_id", 0, object_id, flags)?;

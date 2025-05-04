@@ -16,6 +16,7 @@ pub struct SnowflakeId {
     id: u64,
 }
 
+// TODO: Improve this implementation
 impl SnowflakeId {
     pub fn new(machine_id: u16, my_epoch: u64) -> Self {
         let mut timestamp = current_millis();
