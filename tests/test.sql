@@ -63,6 +63,7 @@ WITH snowflake_id_table AS (
 )
 SELECT * FROM snowflake_id_table ORDER BY id;
 
+-- https://stackoverflow.com/questions/76342920/unsafe-use-of-virtual-table-when-creating-triggers-for-sqlite-full-text-search#:~:text=This%20is%20a,%3D1%3B
 PRAGMA trusted_schema=1;
 
 CREATE TABLE TEST (
