@@ -48,3 +48,17 @@ WITH uuid_table AS (
     SELECT uuid()
 )
 SELECT * FROM uuid_table;
+
+-- Snowflake Id
+SELECT snowflake_id(1, 1700000000000) as snowflake_id;
+
+WITH snowflake_id_table AS (
+    SELECT snowflake_id(1, 1700000000000) AS id
+    UNION ALL
+    SELECT snowflake_id(1, 1700000000000) 
+    UNION ALL
+    SELECT snowflake_id(1, 1700000000000)
+    UNION ALL
+    SELECT snowflake_id(1, 1700000000000)
+)
+SELECT * FROM snowflake_id_table;

@@ -1,4 +1,5 @@
 mod object_id;
+mod snowflake_id;
 mod ulid;
 
 use sqlite_loadable::prelude::*;
@@ -13,7 +14,7 @@ fn ulid(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> Result
 
 fn object_id(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> Result<()> {
     let object_id = object_id::ObjectId::new();
-    api::result_text(context, object_id.to_hex_string())?;
+    api::result_text(context, object_id.to_string())?;
     Ok(())
 }
 
@@ -24,8 +25,19 @@ fn uuid(context: *mut sqlite3_context, _values: &[*mut sqlite3_value]) -> Result
 }
 
 fn snowflake_id(context: *mut sqlite3_context, values: &[*mut sqlite3_value]) -> Result<()> {
-    let _name = api::value_text(values.get(0).expect("1st argument as name"))?;
-    api::result_text(context, "todo: snowflake_id")?;
+    if values.len() != 2 {
+        return Err("Expected 2 arguments (machine_id and epoch)".into());
+    }
+
+    let machine_id = api::value_int(values.get(0).expect("1st argument as machine id"));
+    let my_epoch = api::value_int64(values.get(1).expect("2nd argument as epoch"));
+
+    let snowflake_id = snowflake_id::SnowflakeId::new(
+        machine_id.try_into().unwrap(),
+        my_epoch.try_into().unwrap(),
+    );
+
+    api::result_text(context, snowflake_id.to_string())?;
     Ok(())
 }
 
@@ -35,6 +47,6 @@ pub fn sqlite3_uid_init(db: *mut sqlite3) -> Result<()> {
     define_scalar_function(db, "uuid", 0, uuid, flags)?;
     define_scalar_function(db, "ulid", 0, ulid, flags)?;
     define_scalar_function(db, "object_id", 0, object_id, flags)?;
-    define_scalar_function(db, "snowflake_id", 0, snowflake_id, flags)?;
+    define_scalar_function(db, "snowflake_id", 2, snowflake_id, flags)?;
     Ok(())
 }

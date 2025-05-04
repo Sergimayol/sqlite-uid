@@ -46,7 +46,7 @@ impl ObjectId {
         ObjectId { id }
     }
 
-    pub fn to_hex_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         self.id.iter().map(|b| format!("{:02x}", b)).collect()
     }
 }
@@ -59,7 +59,7 @@ mod tests {
     #[test]
     fn test_object_id_length() {
         let obj_id = ObjectId::new();
-        let hex = obj_id.to_hex_string();
+        let hex = obj_id.to_string();
         assert_eq!(
             hex.len(),
             24,
@@ -69,8 +69,8 @@ mod tests {
 
     #[test]
     fn test_object_id_order() {
-        let id1 = ObjectId::new().to_hex_string();
-        let id2 = ObjectId::new().to_hex_string();
+        let id1 = ObjectId::new().to_string();
+        let id2 = ObjectId::new().to_string();
 
         assert!(
             id1 < id2,
@@ -86,7 +86,7 @@ mod tests {
         let count = 10_000;
 
         for _ in 0..count {
-            let obj_id = ObjectId::new().to_hex_string();
+            let obj_id = ObjectId::new().to_string();
             assert!(
                 set.insert(obj_id),
                 "Duplicate ObjectId detected during uniqueness test"
