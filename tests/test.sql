@@ -61,4 +61,4 @@ WITH snowflake_id_table AS (
     UNION ALL
     SELECT snowflake_id(1, 1700000000000)
 )
-SELECT * FROM snowflake_id_table;
+SELECT * FROM snowflake_id_table ORDER BY id;
