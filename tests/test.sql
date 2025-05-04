@@ -55,10 +55,28 @@ SELECT snowflake_id(1, 1700000000000) as snowflake_id;
 WITH snowflake_id_table AS (
     SELECT snowflake_id(1, 1700000000000) AS id
     UNION ALL
-    SELECT snowflake_id(1, 1700000000000) 
+    SELECT snowflake_id(1, 1700000000000)
     UNION ALL
     SELECT snowflake_id(1, 1700000000000)
     UNION ALL
     SELECT snowflake_id(1, 1700000000000)
 )
 SELECT * FROM snowflake_id_table ORDER BY id;
+
+PRAGMA trusted_schema=1;
+
+CREATE TABLE TEST (
+    uuid TEXT UNIQUE default(uuid()),
+    ulid TEXT UNIQUE default(ulid()),
+    object_id TEXT UNIQUE default(object_id()),
+    snowflake_id TEXT UNIQUE default(snowflake_id(1, 1700000000000)),
+    data TEXT
+);
+
+INSERT INTO TEST (data) VALUES
+    ('Hello'),
+    ('Hola'),
+    ('random data'),
+    ('test for object_id');
+
+SELECT * FROM TEST;
