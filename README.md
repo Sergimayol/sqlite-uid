@@ -1,6 +1,6 @@
 # sqlite-uid
 
-SQLite3 extension for Unique Unique Identifier (UID).
+SQLite3 extension for Unique Identifier (UID).
 
 ## Run Demo
 
